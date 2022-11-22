@@ -4,8 +4,23 @@
  *  Last modified:     October 16, 1842
  **************************************************************************** */
 
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
+
 public class RandomWord {
     public static void main(String[] args) {
+        String champ = StdIn.readString();
+        String contender = "";
+        int count = 2;
+        while (!StdIn.isEmpty()) {
+            contender = StdIn.readString();
 
+            if (StdRandom.bernoulli((1.0 / count))) {
+                champ = contender;
+            }
+            count++;
+        }
+        StdOut.println(champ);
     }
 }
