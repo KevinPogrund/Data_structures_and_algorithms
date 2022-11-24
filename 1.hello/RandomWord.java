@@ -11,10 +11,10 @@ import edu.princeton.cs.algs4.StdRandom;
 public class RandomWord {
     public static void main(String[] args) {
         String champ = StdIn.readString();
-        String contender = "";
+        // String contender = "";
         int count = 2;
         while (!StdIn.isEmpty()) {
-            contender = StdIn.readString();
+            String contender = StdIn.readString();
 
             if (StdRandom.bernoulli((1.0 / count))) {
                 champ = contender;
