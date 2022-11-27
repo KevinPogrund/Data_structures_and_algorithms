@@ -59,10 +59,10 @@ public class Percolation {
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
         if (row < 0 || col < 0 || row >= grid.length || col >= grid.length) {
-            throw new IllegalArgumentException("Value is out of range");
+            throw new IllegalArgumentException();
         }
         else {
-            return grid[row][col] == 1;
+            return grid[row-1][col-1];
         }
     }
 
