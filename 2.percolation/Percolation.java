@@ -6,7 +6,7 @@ public class Percolation {
     private final int sz;
     private final int top;
     private final int bottom;
-    private final WeightedQuickUnionUF wqf;
+    private final WeightedQuickUnionUF wqu;
     private int openSites;
 
 
@@ -19,7 +19,7 @@ public class Percolation {
         grid = new boolean[sz][sz];
         top = 0;
         bottom = sz * sz + 1; // creates a virtual top and bottom site
-        wqf = new WeightedQuickUnionUF(sz * sz + 2);
+        wqu = new WeightedQuickUnionUF(sz * sz + 2);
         openSites = 0;
     }
 
@@ -33,25 +33,25 @@ public class Percolation {
             grid[row - 1][col - 1] = true;
             // If top or bottom
             if (row == 1) {
-                wqf.union(col, top);
+                wqu.union(col, top);
             }
             if (row == sz) {
-                wqf.union(sz * (row - 1) + col, bottom);
+                wqu.union(sz * (row - 1) + col, bottom);
             }
 
             // if this is in any of the middle rows and there are open neighbors
 
             if (row > 1 && isOpen(row - 1, col)) {
-                wqf.union(sz * (row - 1) + col, sz * (row - 2) + col);
+                wqu.union(sz * (row - 1) + col, sz * (row - 2) + col);
             }
             if (col > 1 && isOpen(row, col - 1)) {
-                wqf.union(sz * (row - 1) + col, sz * (row - 1) + col - 1);
+                wqu.union(sz * (row - 1) + col, sz * (row - 1) + col - 1);
             }
             if (row < sz && isOpen(row + 1, col)) {
-                wqf.union(sz * (row - 1) + col, sz * (row) + col);
+                wqu.union(sz * (row - 1) + col, sz * (row) + col);
             }
             if (col < sz && isOpen(row, col + 1)) {
-                wqf.union(sz * (row - 1) + col, sz * (row - 1) + col + 1);
+                wqu.union(sz * (row - 1) + col, sz * (row - 1) + col + 1);
             }
             openSites++;
         }
@@ -75,7 +75,7 @@ public class Percolation {
         if (!isOpen(row - 1, col - 1)) {
             return false;
         }
-        return wqf.find(top) == wqf.find(sz * (row - 1) + col);
+        return wqu.find(top) == wqu.find(sz * (row - 1) + col);
     }
 
     // returns the number of open sites
@@ -85,7 +85,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return wqf.find(top) == wqf.find(bottom);
+        return wqu.find(top) == wqu.find(bottom);
         // using the trick in the notes i.e if virtual top and virtual bottom connect, it percolates
     }
 
