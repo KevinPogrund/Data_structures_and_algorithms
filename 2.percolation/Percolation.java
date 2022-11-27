@@ -1,18 +1,26 @@
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+
 public class Percolation {
     // creates n-by-n grid, with all sites initially blocked
-    private int[][] grid;
-    private int[] group;
+    private final boolean[][] grid;
+    private final int sz;
+    private final int top;
+    private final int bottom;
+    final WeightedQuickUnionUF wqf;
+    private final int openSites;
+
 
     public Percolation(int n) {
-        grid = new int[n][n];
-        group = new int[n * n];
-        int count = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                grid[i][j] = 0;
-                group[count] = count;
-                count++;
-            }
+        if (n <= 0) {
+            throw new IllegalArgumentException();
+        }
+        else {
+            sz = n;
+            grid = new boolean[sz][sz];
+            top = 0;
+            bottom = sz * sz + 1; // creates a virtual top and bottom site
+            wqf = new WeightedQuickUnionUF(sz * sz + 2);
+            openSites = 0;
         }
     }
 
@@ -23,7 +31,7 @@ public class Percolation {
         }
         else if (isOpen(row, col)) {
             grid[row][col] = 1;
-            //Get the grouping values of the surrounding cells
+            // Get the grouping values of the surrounding cells
             int left = -1;
             int right = -1;
             int above = -1;
@@ -40,12 +48,13 @@ public class Percolation {
             if (row != group.length && isOpen(row + 1, col)) {
                 below = group[grid.length * (row + 1) + col];
             }
-            if (col != group.length&& isOpen(row, col + 1)) {
+            if (col != group.length && isOpen(row, col + 1)) {
                 right = group[grid.length * row + col + 1];
             }
             for (int i = 0; i < group.length; i++) {
-                if(group[i]==above ||group[i]==below ||group[i]==left ||group[i]==right){
-                    group[i]=val;
+                if (group[i] == above || group[i] == below || group[i] == left
+                        || group[i] == right) {
+                    group[i] = val;
                 }
             }
         }
