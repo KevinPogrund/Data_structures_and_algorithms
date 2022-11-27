@@ -36,22 +36,22 @@ public class Percolation {
                 wqu.union(col, top);
             }
             if (row == sz) {
-                wqu.union(sz * (row - 1) + col, bottom);
+                wqu.union(getIndex(row, col), bottom);
             }
 
             // if this is in any of the middle rows and there are open neighbors
 
             if (row > 1 && isOpen(row - 1, col)) {
-                wqu.union(sz * (row - 1) + col, sz * (row - 2) + col);
+                wqu.union(getIndex(row, col), getIndex(row - 1, col));
             }
             if (col > 1 && isOpen(row, col - 1)) {
-                wqu.union(sz * (row - 1) + col, sz * (row - 1) + col - 1);
+                wqu.union(getIndex(row, col), getIndex(row, col) - 1);
             }
             if (row < sz && isOpen(row + 1, col)) {
-                wqu.union(sz * (row - 1) + col, sz * (row) + col);
+                wqu.union(getIndex(row, col), getIndex(row + 1, col));
             }
             if (col < sz && isOpen(row, col + 1)) {
-                wqu.union(sz * (row - 1) + col, sz * (row - 1) + col + 1);
+                wqu.union(getIndex(row, col), getIndex(row, col + 1));
             }
             openSites++;
         }
@@ -75,7 +75,7 @@ public class Percolation {
         if (!isOpen(row - 1, col - 1)) {
             return false;
         }
-        return wqu.find(top) == wqu.find(sz * (row - 1) + col);
+        return wqu.find(top) == wqu.find(getIndex(row, col));
     }
 
     // returns the number of open sites
@@ -87,6 +87,10 @@ public class Percolation {
     public boolean percolates() {
         return wqu.find(top) == wqu.find(bottom);
         // using the trick in the notes i.e if virtual top and virtual bottom connect, it percolates
+    }
+
+    private int getIndex(int row, int col) {
+        return sz * (row - 1) + col;
     }
 
     // test client (optional)
