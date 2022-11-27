@@ -14,14 +14,13 @@ public class Percolation {
         if (n <= 0) {
             throw new IllegalArgumentException();
         }
-        else {
-            sz = n;
-            grid = new boolean[sz][sz];
-            top = 0;
-            bottom = sz * sz + 1; // creates a virtual top and bottom site
-            wqf = new WeightedQuickUnionUF(sz * sz + 2);
-            openSites = 0;
-        }
+
+        sz = n;
+        grid = new boolean[sz][sz];
+        top = 0;
+        bottom = sz * sz + 1; // creates a virtual top and bottom site
+        wqf = new WeightedQuickUnionUF(sz * sz + 2);
+        openSites = 0;
     }
 
     // opens the site (row, col) if it is not open already
@@ -29,7 +28,8 @@ public class Percolation {
         if (row <= 0 || col < 0 || row > sz || col > sz) {
             throw new IllegalArgumentException();
         }
-        else if (!isOpen(row - 1, col - 1)) {
+
+        if (!isOpen(row - 1, col - 1)) {
             grid[row - 1][col - 1] = true;
             // If top or bottom
             if (row == 1) {
@@ -62,9 +62,8 @@ public class Percolation {
         if (row < 0 || col < 0 || row >= grid.length || col >= grid.length) {
             throw new IllegalArgumentException();
         }
-        else {
-            return grid[row - 1][col - 1];
-        }
+
+        return grid[row - 1][col - 1];
     }
 
     // is the site (row, col) full?
@@ -72,12 +71,11 @@ public class Percolation {
         if (row <= 0 || col <= 0 || row > sz || col > sz) {
             throw new IllegalArgumentException();
         }
-        else {
-            if (!isOpen(row - 1, col - 1)) {
-                return false;
-            }
-            return wqf.find(top) == wqf.find(sz * (row - 1) + col);
+
+        if (!isOpen(row - 1, col - 1)) {
+            return false;
         }
+        return wqf.find(top) == wqf.find(sz * (row - 1) + col);
     }
 
     // returns the number of open sites
@@ -88,7 +86,7 @@ public class Percolation {
     // does the system percolate?
     public boolean percolates() {
         return wqf.find(top) == wqf.find(bottom);
-        //using the trick in the notes i.e if virtual top and virtual bottom connect, it percolates
+        // using the trick in the notes i.e if virtual top and virtual bottom connect, it percolates
     }
 
     // test client (optional)
