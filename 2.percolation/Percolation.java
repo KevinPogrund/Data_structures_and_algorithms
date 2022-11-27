@@ -26,36 +26,32 @@ public class Percolation {
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
-        if (row < 0 || col < 0 || row >= grid.length || col >= grid.length) {
-            throw new IllegalArgumentException("Value is out of range");
+        if (row <= 0 || col < 0 || row > sz || col > sz) {
+            throw new IllegalArgumentException();
         }
-        else if (isOpen(row, col)) {
-            grid[row][col] = 1;
-            // Get the grouping values of the surrounding cells
-            int left = -1;
-            int right = -1;
-            int above = -1;
-            int below = -1;
-
-            int val = group[row * grid.length + col];
-            if (row != 0 && isOpen(row - 1, col)) {
-                above = group[grid.length * (row - 1) + col];
+        else if (!isOpen(row - 1, col - 1)) {
+            grid[row - 1][col - 1] = true;
+            // If top or bottom
+            if (row == 1) {
+                wqf.union(sz * (row - 1) + col, top);
             }
-            if (col != 0 && isOpen(row, col - 1)) {
-                left = group[grid.length * row + col - 1];
+            if (row == sz) {
+                wqf.union(sz * (row - 1) + col, bottom);
             }
 
-            if (row != group.length && isOpen(row + 1, col)) {
-                below = group[grid.length * (row + 1) + col];
+            // if this is in any of the middle rows and there are open neighbors
+
+            if (row > 1 && isOpen(row - 1, col)) {
+                wqf.union(sz * (row - 1) + col, sz * (row - 2) + col);
             }
-            if (col != group.length && isOpen(row, col + 1)) {
-                right = group[grid.length * row + col + 1];
+            if (col > 1 && isOpen(row, col - 1)) {
+                wqf.union(sz * (row - 1) + col, sz * (row - 1) + col - 1);
             }
-            for (int i = 0; i < group.length; i++) {
-                if (group[i] == above || group[i] == below || group[i] == left
-                        || group[i] == right) {
-                    group[i] = val;
-                }
+            if (row < sz && isOpen(row + 1, col)) {
+                wqf.union(sz * (row - 1) + col, sz * (row) + col);
+            }
+            if (col < sz && isOpen(row, col + 1)) {
+                wqf.union(sz * (row - 1) + col, sz * (row - 1) + col + 1);
             }
         }
     }
