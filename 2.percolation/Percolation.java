@@ -45,7 +45,7 @@ public class Percolation {
                 wqu.union(getIndex(row, col), getIndex(row - 1, col));
             }
             if (col > 1 && isOpen(row, col - 1)) {
-                wqu.union(getIndex(row, col), getIndex(row, col) - 1);
+                wqu.union(getIndex(row, col), getIndex(row, col - 1));
             }
             if (row < sz && isOpen(row + 1, col)) {
                 wqu.union(getIndex(row, col), getIndex(row + 1, col));
