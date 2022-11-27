@@ -25,7 +25,7 @@ public class Percolation {
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
-        if (row <= 0 || col < 0 || row > sz || col > sz) {
+        if (row <= 0 || col <= 0 || row > sz || col > sz) {
             throw new IllegalArgumentException();
         }
 
@@ -33,7 +33,7 @@ public class Percolation {
             grid[row - 1][col - 1] = true;
             // If top or bottom
             if (row == 1) {
-                wqu.union(col, top);
+                wqu.union(getIndex(row, col), top);
             }
             if (row == sz) {
                 wqu.union(getIndex(row, col), bottom);
