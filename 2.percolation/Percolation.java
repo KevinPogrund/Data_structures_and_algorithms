@@ -6,8 +6,8 @@ public class Percolation {
     private final int sz;
     private final int top;
     private final int bottom;
-    final WeightedQuickUnionUF wqf;
-    private final int openSites;
+    private final WeightedQuickUnionUF wqf;
+    private int openSites;
 
 
     public Percolation(int n) {
@@ -33,7 +33,7 @@ public class Percolation {
             grid[row - 1][col - 1] = true;
             // If top or bottom
             if (row == 1) {
-                wqf.union(sz * (row - 1) + col, top);
+                wqf.union(col, top);
             }
             if (row == sz) {
                 wqf.union(sz * (row - 1) + col, bottom);
@@ -53,6 +53,7 @@ public class Percolation {
             if (col < sz && isOpen(row, col + 1)) {
                 wqf.union(sz * (row - 1) + col, sz * (row - 1) + col + 1);
             }
+            openSites++;
         }
     }
 
@@ -62,57 +63,32 @@ public class Percolation {
             throw new IllegalArgumentException();
         }
         else {
-            return grid[row-1][col-1];
+            return grid[row - 1][col - 1];
         }
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
-        if (row < 0 || col < 0 || row >= grid.length || col >= grid.length) {
-            throw new IllegalArgumentException("Value is out of range");
+        if (row <= 0 || col <= 0 || row > sz || col > sz) {
+            throw new IllegalArgumentException();
         }
         else {
-            if (!isOpen(row, col)) {
+            if (!isOpen(row - 1, col - 1)) {
                 return false;
             }
-            if (row == 0) {
-                return true;
-            }
-            int val = group[row * group.length + col];
-            for (int i = 0; i < grid.length; i++) {
-                if (group[(row - 1) + i] == val) {
-                    return true;
-                }
-            }
-            return false;
+            return wqf.find(top) == wqf.find(sz * (row - 1) + col);
         }
     }
 
     // returns the number of open sites
     public int numberOfOpenSites() {
-        int count = 0;
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
-                if ((grid[i][j] == 1)) {
-                    count++;
-                }
-            }
-
-        }
-        return count;
+        return openSites;
     }
 
     // does the system percolate?
     public boolean percolates() {
-        for (int i = 0; i < grid.length; i++) {
-            int val = group[i];
-            for (int j = 0; j < grid.length; j++) {
-                if (group[grid.length * (grid.length - 1) + j] == val) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return wqf.find(top) == wqf.find(bottom);
+        //using the trick in the notes i.e if virtual top and virtual bottom connect, it percolates
     }
 
     // test client (optional)
