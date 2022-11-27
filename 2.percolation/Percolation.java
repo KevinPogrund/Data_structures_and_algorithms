@@ -25,11 +25,8 @@ public class Percolation {
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
-        if (row <= 0 || col <= 0 || row > sz || col > sz) {
-            throw new IllegalArgumentException();
-        }
-
-        if (!isOpen(row - 1, col - 1)) {
+        exceptionCheck(row, col);
+        if (!isOpen(row, col)) {
             grid[row - 1][col - 1] = true;
             // If top or bottom
             if (row == 1) {
@@ -59,22 +56,14 @@ public class Percolation {
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
-        if (row < 0 || col < 0 || row >= grid.length || col >= grid.length) {
-            throw new IllegalArgumentException();
-        }
+        exceptionCheck(row, col);
 
         return grid[row - 1][col - 1];
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
-        if (row <= 0 || col <= 0 || row > sz || col > sz) {
-            throw new IllegalArgumentException();
-        }
-
-        if (!isOpen(row - 1, col - 1)) {
-            return false;
-        }
+        exceptionCheck(row, col);
         return wqu.find(top) == wqu.find(getIndex(row, col));
     }
 
@@ -91,6 +80,12 @@ public class Percolation {
 
     private int getIndex(int row, int col) {
         return sz * (row - 1) + col;
+    }
+
+    private void exceptionCheck(int row, int col) {
+        if (row <= 0 || row > sz || col <= 0 || col > sz) {
+            throw new IllegalArgumentException();
+        }
     }
 
     // test client (optional)
