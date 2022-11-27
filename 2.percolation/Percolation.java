@@ -50,7 +50,7 @@ public class Percolation {
             }
             int val = group[row * group.length + col];
             for (int i = 0; i < grid.length; i++) {
-                if (group[(row - 1) * i] == val) {
+                if (group[(row - 1) + i] == val) {
                     return true;
                 }
             }
