@@ -23,6 +23,31 @@ public class Percolation {
         }
         else if (isOpen(row, col)) {
             grid[row][col] = 1;
+            //Get the grouping values of the surrounding cells
+            int left = -1;
+            int right = -1;
+            int above = -1;
+            int below = -1;
+
+            int val = group[row * grid.length + col];
+            if (row != 0 && isOpen(row - 1, col)) {
+                above = group[grid.length * (row - 1) + col];
+            }
+            if (col != 0 && isOpen(row, col - 1)) {
+                left = group[grid.length * row + col - 1];
+            }
+
+            if (row != group.length && isOpen(row + 1, col)) {
+                below = group[grid.length * (row + 1) + col];
+            }
+            if (col != group.length&& isOpen(row, col + 1)) {
+                right = group[grid.length * row + col + 1];
+            }
+            for (int i = 0; i < group.length; i++) {
+                if(group[i]==above ||group[i]==below ||group[i]==left ||group[i]==right){
+                    group[i]=val;
+                }
+            }
         }
     }
 
