@@ -87,16 +87,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (rand != size - 1) {
             RandQ[rand] = RandQ[size - 1];
         }
-        RandQ[--size]=null;
-        if(size>0 && size<=RandQ.length/4){
-            resize(RandQ.length/2);
+        RandQ[--size] = null;
+        if (size > 0 && size <= RandQ.length / 4) {
+            resize(RandQ.length / 2);
         }
         return item;
     }
 
     // return a random item (but do not remove it)
     public Item sample() {
-        if(isEmpty()){throw new NoSuchElementException();}
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
         int rand = StdRandom.uniformInt(size);
         Item item = RandQ[rand];
         return item;
