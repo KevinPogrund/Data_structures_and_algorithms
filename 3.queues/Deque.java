@@ -100,14 +100,49 @@ public class Deque<Item> implements Iterable<Item> {
         return oldLast.item;
     }
 
+    private class DequeIterator implements Iterator<Item> {
+        private Node current = first;
+
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        public Item next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            Item item = current.item;
+            current = current.next;
+            return item;
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+    }
+
     // return an iterator over items in order from front to back
     public Iterator<Item> iterator() {
-
+        return new DequeIterator();
     }
 
 
     // unit testing (required)
     public static void main(String[] args) {
+        Deque<Integer> deq = new Deque<>();
+        deq.addFirst(2);
+        deq.addLast(3);
+        deq.addLast(1);
+        deq.addFirst(0);
+        System.out.println("Expect order to be 0 1 2 3");
+        for (int i = 0; i < 4; i++) {
+            if (deq.size % 2 == 0) {
+                System.out.println(deq.removeFirst());
+            }
+            else {
+                System.out.println(deq.removeLast());
+            }
+        }
     }
 
 }
