@@ -42,7 +42,7 @@ public class FastCollinearPoints {
 
     private void checkPoints(Point[] point) {
 
-        if (point == null) throw new NullPointerException();
+        if (point == null) throw new IllegalArgumentException();
         for (int i = 0; i < point.length; i++) {
             if (point[i] == null) throw new IllegalArgumentException();
             for (int j = 0; j < point.length; j++) {
