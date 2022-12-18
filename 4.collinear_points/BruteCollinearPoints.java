@@ -33,7 +33,6 @@ public class BruteCollinearPoints {
 
             }
         }
-
     }    // finds all line segments containing 4 points
 
     private void enqueue(LineSegment seg) {
