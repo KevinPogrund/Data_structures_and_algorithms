@@ -1,43 +1,48 @@
 import edu.princeton.cs.algs4.StdDraw;
 
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class FastCollinearPoints {
 
     private LineSegment[] segments;
-    private final Point[] points;
-    private int numberOfSegments;
 
     public FastCollinearPoints(Point[] points) {
         checkPoints(points);
-        this.points = points.clone();
-        this.segments = new LineSegment[2];
-        this.numberOfSegments = 0;
-        LinkedList<Point> collinearPoints = new LinkedList<Point>();
+        Point[] pointsRef = Arrays.copyOf(points, points.length);
+        Point[] copyOfPoints = Arrays.copyOf(points, points.length);
+        ArrayList<LineSegment> segmentList = new ArrayList<LineSegment>();
+        Arrays.sort(pointsRef);
+        for (int i = 0; i < pointsRef.length; i++) {
+            Point origin = pointsRef[i];
+            Arrays.sort(copyOfPoints);
+            Arrays.sort(copyOfPoints, origin.slopeOrder());
 
-        for (Point point : this.points) {
-            Arrays.sort(this.points, point.slopeOrder());
-            double prevSlope = 0.0;
+            int numPoints = 1;
+            Point lineStart = null;
 
-            for (int i = 0; i < this.points.length; i++) {
-                double currentSlope = point.slopeTo(this.points[i]);
-                if (i == 0 || prevSlope != currentSlope) {
-                    if (collinearPoints.size() >= 3) {
-                        this.enqueue(new LineSegment(collinearPoints.getFirst(), collinearPoints.getLast()));
-                        collinearPoints.getFirst().drawTo(collinearPoints.getLast());
-                        StdDraw.show();
+            for (int j = 0; j < copyOfPoints.length - 1; j++) {
+                if (copyOfPoints[j].slopeTo(origin) == copyOfPoints[j + 1].slopeTo(origin)) {
+                    numPoints++;
+                    if (numPoints == 2) {
+                        lineStart = copyOfPoints[j];
+                        numPoints++;
+                    } else if (numPoints >= 4 && j + 1 == copyOfPoints.length - 1) {
+                        if (lineStart.compareTo(origin) == 1)
+                            segmentList.add(new LineSegment(origin, copyOfPoints[j + 1]));
+                        numPoints = 1;
+                    } else {
+                        numPoints = 1;
                     }
-                    collinearPoints.clear();
                 }
-                collinearPoints.add(this.points[i]);
-                prevSlope = currentSlope;
             }
+            segments = segmentList.toArray(new LineSegment[segmentList.size()]);
         }
+
     } // finds all line segments containing 4 or more points
 
     public int numberOfSegments() {
-        return this.numberOfSegments;
+        return this.segments.length;
     }        // the number of line segments
 
     private void checkPoints(Point[] point) {
@@ -51,20 +56,7 @@ public class FastCollinearPoints {
         }
     }
 
-    private void enqueue(LineSegment seg) {
-        if (seg == null) throw new IllegalArgumentException();
-        if (this.numberOfSegments == this.segments.length) resize(2 * this.segments.length);
-        this.segments[this.numberOfSegments++] = seg;
-    }
-
-    private void resize(int size) {
-        assert size >= this.numberOfSegments;
-        LineSegment[] temp = new LineSegment[size];
-        System.arraycopy(this.segments, 0, temp, 0, this.numberOfSegments);
-        this.segments = temp;
-    }
-
     public LineSegment[] segments() {
-        return Arrays.copyOf(this.segments, this.numberOfSegments);
+        return Arrays.copyOf(this.segments, this.segments.length);
     }            // the line segments
 }
