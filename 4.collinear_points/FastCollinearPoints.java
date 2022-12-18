@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.ArrayList;
 
 public class FastCollinearPoints {
-
     private LineSegment[] segments;
 
     public FastCollinearPoints(Point[] points) {
@@ -38,7 +37,6 @@ public class FastCollinearPoints {
             }
             segments = segmentList.toArray(new LineSegment[segmentList.size()]);
         }
-
     } // finds all line segments containing 4 or more points
 
     public int numberOfSegments() {
@@ -46,7 +44,6 @@ public class FastCollinearPoints {
     }        // the number of line segments
 
     private void checkPoints(Point[] point) {
-
         if (point == null) throw new IllegalArgumentException();
         for (int i = 0; i < point.length; i++) {
             if (point[i] == null) throw new IllegalArgumentException();

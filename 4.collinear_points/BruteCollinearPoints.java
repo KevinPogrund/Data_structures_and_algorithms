@@ -28,9 +28,7 @@ public class BruteCollinearPoints {
                             StdDraw.show();
                         }
                     }
-
                 }
-
             }
         }
     }    // finds all line segments containing 4 points
@@ -66,6 +64,5 @@ public class BruteCollinearPoints {
     public LineSegment[] segments() {
         return Arrays.copyOf(this.segments, this.numberOfSegments);
     }     // the line segments
-
 
 }
