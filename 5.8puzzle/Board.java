@@ -49,9 +49,12 @@ public class Board {
         int man = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                int gapHorizontal = Math.abs(i - currentBoard[i][j] % n);
-                int gapVertical = Math.abs(j - currentBoard[i][j] / n);
-                man += gapHorizontal + gapVertical;
+                if (currentBoard[i][j] != 0) {
+                    int value = currentBoard[i][j]-1;//adjust value to allow for starting at 1
+                    int gapHorizontal = Math.abs(j - value % n);
+                    int gapVertical = (int) Math.abs(i - Math.floor(value / n));
+                    man += gapHorizontal + gapVertical;
+                }
             }
         }
         return man;
