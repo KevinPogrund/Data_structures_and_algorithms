@@ -11,13 +11,13 @@ public class Board {
         if (tiles == null) throw new IllegalArgumentException();
 
         this.n = tiles[0].length;
-        this.currentBoard = tiles;
+        this.currentBoard = tiles.clone();
     }
 
     // string representation of this board
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append(n + "\n");
+        s.append(n).append("\n");
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 int x = currentBoard[i][j];
@@ -38,7 +38,7 @@ public class Board {
         int ham = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (currentBoard[i][j] != (n * i + j)) ham++;
+                if (currentBoard[i][j] != (n * i + j + 1) && currentBoard[i][j] != 0) ham++;
             }
         }
         return ham;
@@ -137,6 +137,7 @@ public class Board {
     }
 
     // unit testing (not graded)
-    public static void main(String[] args){}
+    public static void main(String[] args) {
+    }
 
 }

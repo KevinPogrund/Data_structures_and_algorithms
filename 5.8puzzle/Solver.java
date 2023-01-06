@@ -15,7 +15,7 @@ public class Solver {
         }
 
         public Move(Board board, Move move) {
-            this.moves = prev.moves+1;
+            this.moves = prev.moves + 1;
             this.node = board;
             this.prev = prev;
         }
@@ -41,7 +41,7 @@ public class Solver {
 
         while (true) {
             lastMove = expand(pq);
-            if(lastMove!=null || expand(twinPQ)!=null) return;
+            if (lastMove != null || expand(twinPQ) != null) return;
         }
     }
 
@@ -58,23 +58,23 @@ public class Solver {
     }
 
     // is the initial board solvable? (see below)
-    public boolean isSolvable(){
-        return lastMove!=null;
+    public boolean isSolvable() {
+        return lastMove != null;
     }
 
     // min number of moves to solve initial board; -1 if unsolvable
-    public int moves(){
-        if(!isSolvable()) return -1;
+    public int moves() {
+        if (!isSolvable()) return -1;
         return lastMove.moves;
     }
 
     // sequence of boards in a shortest solution; null if unsolvable
-    public Iterable<Board> solution(){
-        if(!isSolvable()) return null;
+    public Iterable<Board> solution() {
+        if (!isSolvable()) return null;
 
         Stack<Board> solution = new Stack<>();
         Move temp = lastMove;
-        while (temp.prev!= null){
+        while (temp.prev != null) {
             solution.push(temp.node);
             temp = temp.prev;
         }
