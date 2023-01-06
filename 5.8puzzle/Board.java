@@ -50,7 +50,7 @@ public class Board {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (currentBoard[i][j] != 0) {
-                    int value = currentBoard[i][j]-1;//adjust value to allow for starting at 1
+                    int value = currentBoard[i][j] - 1;//adjust value to allow for starting at 1
                     int gapHorizontal = Math.abs(j - value % n);
                     int gapVertical = (int) Math.abs(i - Math.floor(value / n));
                     man += gapHorizontal + gapVertical;
@@ -116,7 +116,7 @@ public class Board {
         if (row > 0) boardStack.push(new Board(swap(row, col, row - 1, col)));
         if (row < this.n - 1) boardStack.push(new Board(swap(row, col, row + 1, col)));
         if (col > 0) boardStack.push(new Board(swap(row, col, row, col - 1)));
-        if (row < this.n) boardStack.push(new Board(swap(row, col, row + 1, col)));
+        if (col < this.n - 1) boardStack.push(new Board(swap(row, col, row, col + 1)));
 
         return boardStack;
     }
@@ -132,7 +132,6 @@ public class Board {
             for (int j = 0; j < n - 1; j++) {
                 if ((row != i || col != j) && (row != i || col != j + 1)) {
                     return new Board(swap(row, col, row, col + 1));
-
                 }
             }
         }
