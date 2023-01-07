@@ -81,6 +81,7 @@ public class Board {
 
     private int[][] swap(int oldRow, int oldCol, int newRow, int newCol) {
         int[][] copy = new int[n][n];
+//        copy = currentBoard.clone();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 copy[i][j] = currentBoard[i][j];

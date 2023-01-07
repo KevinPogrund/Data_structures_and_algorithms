@@ -14,7 +14,7 @@ public class Solver {
             this.prev = null;
         }
 
-        public Move(Board board, Move move) {
+        public Move(Board board, Move prev) {
             this.moves = prev.moves + 1;
             this.node = board;
             this.prev = prev;
