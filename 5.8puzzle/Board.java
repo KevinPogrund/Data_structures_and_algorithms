@@ -131,7 +131,7 @@ public class Board {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n - 1; j++) {
                 if ((row != i || col != j) && (row != i || col != j + 1)) {
-                    return new Board(swap(row, col, row, col + 1));
+                    return new Board(swap(i, j, i, j + 1));
                 }
             }
         }
