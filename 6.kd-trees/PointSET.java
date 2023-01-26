@@ -3,8 +3,8 @@ import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.SET;
 import edu.princeton.cs.algs4.StdDraw;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 
 public class PointSET {
@@ -43,7 +43,7 @@ public class PointSET {
 
     public Iterable<Point2D> range(RectHV rect) {
         if (rect == null) throw new IllegalArgumentException();
-        Set<Point2D> result = new HashSet<>();
+        Set<Point2D> result = new TreeSet<>();
         for (Point2D p : set) {
             if (rect.contains(p)) result.add(p);
         }
@@ -51,6 +51,7 @@ public class PointSET {
     }            // all points that are inside the rectangle (or on the boundary)
 
     public Point2D nearest(Point2D p) {
+        if (p == null) throw new IllegalArgumentException();
         if (isEmpty()) return null;
         Point2D nearestPoint = null;
         double shortestDistance = Double.MAX_VALUE;
