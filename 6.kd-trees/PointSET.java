@@ -3,7 +3,9 @@ import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.SET;
 import edu.princeton.cs.algs4.StdDraw;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class PointSET {
     private SET<Point2D> set;
